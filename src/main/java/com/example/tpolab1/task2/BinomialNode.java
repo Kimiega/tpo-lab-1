@@ -1,4 +1,4 @@
-package task2;
+package com.example.tpolab1.task2;
 
 // Basic node stored in binomial queues
 // Note that this class is not accessible outside
@@ -12,7 +12,7 @@ class BinomialNode
         this( theElement, null, null );
     }
 
-    BinomialNode( Comparable theElement, BinomialNode lt, BinomialNode nt )
+    BinomialNode(Comparable theElement, BinomialNode lt, BinomialNode nt )
     {
         element     = theElement;
         leftChild   = lt;
@@ -20,7 +20,7 @@ class BinomialNode
     }
 
     // Friendly data; accessible by other package routines
-    Comparable   element;     // The data in the node
+    Comparable element;     // The data in the node
     BinomialNode leftChild;   // Left child
     BinomialNode nextSibling; // Right child
 }

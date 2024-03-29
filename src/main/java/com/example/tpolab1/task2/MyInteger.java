@@ -1,4 +1,4 @@
-package task2;
+package com.example.tpolab1.task2;
 
 /**
  * Wrapper class for use with generic data structures.

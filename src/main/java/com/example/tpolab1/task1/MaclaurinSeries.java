@@ -1,4 +1,4 @@
-package task1;
+package com.example.tpolab1.task1;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

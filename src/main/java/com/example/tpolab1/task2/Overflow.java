@@ -1,4 +1,4 @@
-package task2;
+package com.example.tpolab1.task2;
 
 /**
  * Exception class for access in full containers
