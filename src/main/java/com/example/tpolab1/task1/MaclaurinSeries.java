@@ -12,29 +12,34 @@ import static java.lang.Math.*;
 
 public class MaclaurinSeries {
     private final static double PI2 = PI * 2;
+    private final static int PRECISION = 10;
 
     public double sec(double x, int n) {
         if (Double.isNaN(x))
             throw new ArithmeticException("x is NaN");
         if (Double.isInfinite(x))
             throw new ArithmeticException("x is infinity");
-        if (x >= 0) {
-            while (x > PI) {
-                x -=PI2;
-            }
-        } else {
-            while (x < -PI) {
-                x += PI2;
-            }
+        BigDecimal tempX = BigDecimal.valueOf(x);
+        if (tempX.compareTo(BigDecimal.valueOf(PI)) > 0) {
+            BigDecimal multiplier = tempX.divide(BigDecimal.valueOf(PI2), RoundingMode.UP).setScale(0, RoundingMode.UP);
+            var t1 = multiplier.multiply(BigDecimal.valueOf(PI2));
+            tempX = tempX.subtract(t1);
+        } else if (tempX.compareTo(BigDecimal.valueOf(-PI)) < 0) {
+            BigDecimal multiplier = tempX.negate().divide(BigDecimal.valueOf(PI2), RoundingMode.UP).setScale(0, RoundingMode.UP);
+            var t1 = multiplier.multiply(BigDecimal.valueOf(PI2));
+            tempX = tempX.add(t1);
         }
-        if (abs(x) == PI/2)
+        if (tempX.abs().setScale(PRECISION, RoundingMode.DOWN).compareTo(BigDecimal.valueOf(PI/2).setScale(PRECISION, RoundingMode.DOWN)) == 0)
             return Double.NaN;
 
         boolean negativeSign = false;
 
-        if (abs(x) > PI/2) {
+        if (tempX.abs().compareTo(BigDecimal.valueOf(PI/2)) > 0) {
             negativeSign = true;
-            x += x > 0 ? -PI : PI;
+            if (tempX.compareTo(BigDecimal.ZERO) > 0)
+                tempX = tempX.subtract(BigDecimal.valueOf(-PI));
+            else
+                tempX = tempX.add(BigDecimal.valueOf(PI));
         }
         BigDecimal res = BigDecimal.ZERO;
         BigDecimal temp;
@@ -44,7 +49,7 @@ public class MaclaurinSeries {
             temp = BigDecimal.ONE;
             if (k % 2 != 0)
                 temp = temp.negate();
-            temp = temp.multiply(BigDecimal.valueOf(x).pow(2 * k)).multiply(new BigDecimal(eulerNumbersList.get(k))).divide(new BigDecimal(getFactorial(2*k)), n, RoundingMode.CEILING);
+            temp = temp.multiply(tempX.pow(2 * k)).multiply(new BigDecimal(eulerNumbersList.get(k))).divide(new BigDecimal(getFactorial(2*k)), n, RoundingMode.CEILING);
             res = res.add(temp);
         }
         if (negativeSign) {
