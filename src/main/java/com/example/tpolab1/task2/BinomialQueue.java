@@ -231,29 +231,4 @@ public class BinomialQueue
     {
         return ( 1 << theTrees.length ) - 1;
     }
-
-    public static void main( String [ ] args )
-    {
-        int numItems = 10000;
-        BinomialQueue h  = new BinomialQueue( );
-        BinomialQueue h1 = new BinomialQueue( );
-        int i = 37;
-
-        System.out.println( "Starting check." );
-        try
-        {
-            for( i = 37; i != 0; i = ( i + 37 ) % numItems )
-                if( i % 2 == 0 )
-                    h1.insert( new MyInteger( i ) );
-                else
-                    h.insert( new MyInteger( i ) );
-
-            h.merge( h1 );
-            for( i = 1; i < numItems; i++ )
-                if( ((MyInteger)( h.deleteMin( ) )).intValue( ) != i )
-                    System.out.println( "Oops! " + i );
-        }
-        catch( Overflow e ) { System.out.println( "Unexpected overflow" ); }
-        System.out.println( "Check done." );
-    }
 }
