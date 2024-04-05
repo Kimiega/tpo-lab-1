@@ -12,7 +12,7 @@ import static java.lang.Math.*;
 
 public class MaclaurinSeries {
     private final static double PI2 = PI * 2;
-    private final static int PRECISION = 10;
+    private final static int PRECISION_HALF_PI_CHECK = 5;
 
     public double sec(double x, int n) {
         if (Double.isNaN(x))
@@ -29,18 +29,20 @@ public class MaclaurinSeries {
             var t1 = multiplier.multiply(BigDecimal.valueOf(PI2));
             tempX = tempX.add(t1);
         }
-        if (tempX.abs().setScale(PRECISION, RoundingMode.DOWN).compareTo(BigDecimal.valueOf(PI/2).setScale(PRECISION, RoundingMode.DOWN)) == 0)
-            return Double.NaN;
 
         boolean negativeSign = false;
 
         if (tempX.abs().compareTo(BigDecimal.valueOf(PI/2)) > 0) {
             negativeSign = true;
             if (tempX.compareTo(BigDecimal.ZERO) > 0)
-                tempX = tempX.subtract(BigDecimal.valueOf(-PI));
+                tempX = tempX.subtract(BigDecimal.valueOf(PI));
             else
                 tempX = tempX.add(BigDecimal.valueOf(PI));
         }
+
+        if (tempX.abs().setScale(PRECISION_HALF_PI_CHECK, RoundingMode.DOWN).compareTo(BigDecimal.valueOf(PI/2).setScale(PRECISION_HALF_PI_CHECK, RoundingMode.DOWN)) == 0)
+            return Double.NaN;
+
         BigDecimal res = BigDecimal.ZERO;
         BigDecimal temp;
         var eulerNumbersList = eulerNumbers(n + 1);
