@@ -33,9 +33,9 @@ public class MaclaurinSeriesTest {
     @DisplayName("Invalid x")
     void testInvalidX() {
         assertAll(()->{
-            assertThrowsExactly(ArithmeticException.class, () -> ms.sec(Double.NaN, CONST_N));
-            assertThrowsExactly(ArithmeticException.class, () -> ms.sec(Double.POSITIVE_INFINITY, CONST_N));
-            assertThrowsExactly(ArithmeticException.class, () -> ms.sec(Double.NEGATIVE_INFINITY, CONST_N));
+            assertThrows(ArithmeticException.class, () -> ms.sec(Double.NaN, CONST_N), "x is NaN");
+            assertThrows(ArithmeticException.class, () -> ms.sec(Double.POSITIVE_INFINITY, CONST_N), "x is infinity");
+            assertThrows(ArithmeticException.class, () -> ms.sec(Double.NEGATIVE_INFINITY, CONST_N), "x is infinity");
         });
     }
 
